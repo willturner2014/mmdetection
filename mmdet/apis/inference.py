@@ -143,7 +143,7 @@ def inference_detector(
     if isinstance(imgs, (list, tuple)):
         is_batch = True
     else:
-        imgs = [imgs]
+        imgs = [imgs] 
         is_batch = False
 
     cfg = model.cfg
