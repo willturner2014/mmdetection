@@ -10,10 +10,10 @@ from mmengine.config import Config, ConfigDict
 from mmengine.logging import print_log
 from mmengine.utils import ProgressBar, path
 
-from mmyolo.registry import VISUALIZERS
-from mmyolo.utils import switch_to_deploy
-from mmyolo.utils.labelme_utils import LabelmeFormat
-from mmyolo.utils.misc import get_file_list, show_data_classes
+from mmdet.registry import VISUALIZERS
+# from mmyolo.utils import switch_to_deploy
+from mmdet.utils.labelme_utils import LabelmeFormat
+from mmdet.utils.misc import get_file_list, show_data_classes
 
 
 def parse_args():
@@ -106,8 +106,8 @@ def main():
     model = init_detector(
         config, args.checkpoint, device=args.device, cfg_options={})
 
-    if args.deploy:
-        switch_to_deploy(model)
+    # if args.deploy:
+    #     switch_to_deploy(model)
 
     if not args.show:
         path.mkdir_or_exist(args.out_dir)

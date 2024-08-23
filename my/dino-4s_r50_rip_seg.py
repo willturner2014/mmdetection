@@ -1,5 +1,5 @@
 _base_ = [
-    './configs/_base_/datasets/coco_detection.py', './configs/_base_/default_runtime.py'
+    '../configs/_base_/datasets/coco_detection.py', '../configs/_base_/default_runtime.py'
 ]
 
 
@@ -170,6 +170,102 @@ model = dict(
             loss_weight=1.0),  # 2.0 in DeformDETR
         loss_bbox=dict(type='L1Loss', loss_weight=5.0),
         loss_iou=dict(type='GIoULoss', loss_weight=2.0)),
+    # added by gaoxu 20240814
+    
+    roi_head=dict(
+    bbox_head=dict(
+        bbox_coder=dict(
+            target_means=[
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+            ],
+            target_stds=[
+                0.1,
+                0.1,
+                0.2,
+                0.2,
+            ],
+            type='DeltaXYWHBBoxCoder'),
+        fc_out_channels=1024,
+        in_channels=256,
+        loss_bbox=dict(loss_weight=1.0, type='L1Loss'),
+        loss_cls=dict(
+            loss_weight=1.0, type='CrossEntropyLoss', use_sigmoid=False),
+        num_classes=1,
+        reg_class_agnostic=False,
+        roi_feat_size=7,
+        type='Shared2FCBBoxHead'),
+    bbox_roi_extractor=dict(
+        featmap_strides=[
+            4,
+            8,
+            16,
+            32,
+        ],
+        out_channels=256,
+        roi_layer=dict(output_size=7, sampling_ratio=0, type='RoIAlign'),
+        type='SingleRoIExtractor'),
+    mask_head=dict(
+        conv_out_channels=256,
+        in_channels=256,
+        loss_mask=dict(
+            loss_weight=1.0, type='CrossEntropyLoss', use_mask=True),
+        num_classes=1,
+        num_convs=4,
+        type='FCNMaskHead'),
+    mask_roi_extractor=dict(
+        featmap_strides=[
+            4,
+            8,
+            16,
+            32,
+        ],
+        out_channels=256,
+        roi_layer=dict(output_size=14, sampling_ratio=0, type='RoIAlign'),
+        type='SingleRoIExtractor'),
+    type='StandardRoIHead'),
+rpn_head=dict(
+    anchor_generator=dict(
+        ratios=[
+            0.5,
+            1.0,
+            2.0,
+        ],
+        scales=[
+            8,
+        ],
+        strides=[
+            4,
+            8,
+            16,
+            32,
+            64,
+        ],
+        type='AnchorGenerator'),
+    bbox_coder=dict(
+        target_means=[
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+        ],
+        target_stds=[
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+        ],
+        type='DeltaXYWHBBoxCoder'),
+    feat_channels=256,
+    in_channels=256,
+    loss_bbox=dict(loss_weight=1.0, type='L1Loss'),
+    loss_cls=dict(
+        loss_weight=1.0, type='CrossEntropyLoss', use_sigmoid=True),
+    type='RPNHead'),
+    
+    # added by gaoxu
     dn_cfg=dict(  # TODO: Move to model.train_cfg ?
         label_noise_scale=0.5,
         box_noise_scale=1.0,  # 0.4 for DN-DETR
