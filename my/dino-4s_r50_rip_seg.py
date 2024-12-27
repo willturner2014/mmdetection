@@ -35,7 +35,7 @@ test_ann_file =  data_root + 'annotations/test.json'
 test_data_prefix =  data_root + 'images/' 
 
 num_classes = 3  
-metainfo = dict(classes=classes, palette=[(220, 20, 60)])
+metainfo = dict(classes=classes, palette=[(220, 20, 60),])
 
 train_dataloader = dict(
     batch_size=2,

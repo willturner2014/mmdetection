@@ -14,15 +14,31 @@ env_cfg = dict(
     cudnn_benchmark=False,
     dist_cfg=dict(backend='nccl'),
     mp_cfg=dict(mp_start_method='fork', opencv_num_threads=0))
+launcher = 'none'
 load_from = 'checkpoints/mask_rcnn_r50_caffe_fpn_mstrain-poly_3x_coco_bbox_mAP-0.408__segm_mAP-0.37_20200504_163245-42aa3d00.pth'
 log_level = 'INFO'
 log_processor = dict(by_epoch=True, type='LogProcessor', window_size=50)
 metainfo = dict(
-    classes=('balloon', ), palette=[
+    classes=(
+        'kengtang',
+        'fufa',
+        'wangxiang',
+    ),
+    palette=[
         (
             220,
             20,
             60,
+        ),
+        (
+            192,
+            0,
+            128,
+        ),
+        (
+            192,
+            128,
+            128,
         ),
     ])
 model = dict(
@@ -234,17 +250,33 @@ test_cfg = dict(type='TestLoop')
 test_dataloader = dict(
     batch_size=1,
     dataset=dict(
-        ann_file='val/annotation_coco.json',
+        ann_file='val/annotations.json',
         backend_args=None,
         data_prefix=dict(img='val/'),
         data_root='./datasets/balloon',
-        metainfo=dict(classes=('balloon', ), palette=[
-            (
-                220,
-                20,
-                60,
+        metainfo=dict(
+            classes=(
+                'kengtang',
+                'fufa',
+                'wangxiang',
             ),
-        ]),
+            palette=[
+                (
+                    220,
+                    20,
+                    60,
+                ),
+                (
+                    192,
+                    0,
+                    128,
+                ),
+                (
+                    192,
+                    128,
+                    128,
+                ),
+            ]),
         pipeline=[
             dict(backend_args=None, type='LoadImageFromFile'),
             dict(keep_ratio=True, scale=(
@@ -269,7 +301,7 @@ test_dataloader = dict(
     persistent_workers=True,
     sampler=dict(shuffle=False, type='DefaultSampler'))
 test_evaluator = dict(
-    ann_file='./datasets/balloon/val/annotation_coco.json',
+    ann_file='./datasets/balloon/val/annotations.json',
     backend_args=None,
     format_only=False,
     metric=[
@@ -299,18 +331,34 @@ train_dataloader = dict(
     batch_sampler=dict(type='AspectRatioBatchSampler'),
     batch_size=2,
     dataset=dict(
-        ann_file='train/annotation_coco.json',
+        ann_file='train/annotations.json',
         backend_args=None,
         data_prefix=dict(img='train/'),
         data_root='./datasets/balloon',
         filter_cfg=dict(filter_empty_gt=True, min_size=32),
-        metainfo=dict(classes=('balloon', ), palette=[
-            (
-                220,
-                20,
-                60,
+        metainfo=dict(
+            classes=(
+                'kengtang',
+                'fufa',
+                'wangxiang',
             ),
-        ]),
+            palette=[
+                (
+                    220,
+                    20,
+                    60,
+                ),
+                (
+                    192,
+                    0,
+                    128,
+                ),
+                (
+                    192,
+                    128,
+                    128,
+                ),
+            ]),
         pipeline=[
             dict(backend_args=None, type='LoadImageFromFile'),
             dict(
@@ -397,17 +445,33 @@ val_cfg = dict(type='ValLoop')
 val_dataloader = dict(
     batch_size=1,
     dataset=dict(
-        ann_file='val/annotation_coco.json',
+        ann_file='val/annotations.json',
         backend_args=None,
         data_prefix=dict(img='val/'),
         data_root='./datasets/balloon',
-        metainfo=dict(classes=('balloon', ), palette=[
-            (
-                220,
-                20,
-                60,
+        metainfo=dict(
+            classes=(
+                'kengtang',
+                'fufa',
+                'wangxiang',
             ),
-        ]),
+            palette=[
+                (
+                    220,
+                    20,
+                    60,
+                ),
+                (
+                    192,
+                    0,
+                    128,
+                ),
+                (
+                    192,
+                    128,
+                    128,
+                ),
+            ]),
         pipeline=[
             dict(backend_args=None, type='LoadImageFromFile'),
             dict(keep_ratio=True, scale=(
@@ -432,7 +496,7 @@ val_dataloader = dict(
     persistent_workers=True,
     sampler=dict(shuffle=False, type='DefaultSampler'))
 val_evaluator = dict(
-    ann_file='./datasets/balloon/val/annotation_coco.json',
+    ann_file='./datasets/balloon/val/annotations.json',
     backend_args=None,
     format_only=False,
     metric=[

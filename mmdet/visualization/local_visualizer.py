@@ -585,7 +585,8 @@ class TrackLocalVisualizer(Visualizer):
             ]
 
         # draw bboxes and texts
-        if 'bboxes' in instances:
+        # if 'bboxes' in instances:
+        if False: # gaoxu 20240927
             # draw bboxes
             bboxes = instances.bboxes.clone()
             self.draw_bboxes(
