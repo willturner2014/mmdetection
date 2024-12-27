@@ -121,7 +121,4 @@ work_dirs/
 *.pth
 *.py~
 *.sh~
-model/cuda_11_8_2.run
-model/best_rs_78.run
-model/best_video_58.run
-model/cuda_11_8_1.run
+/model
